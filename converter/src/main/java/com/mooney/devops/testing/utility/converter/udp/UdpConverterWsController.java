@@ -2,6 +2,8 @@ package com.mooney.devops.testing.utility.converter.udp;
 
 import java.util.Map;
 
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
@@ -10,26 +12,30 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
+import com.mooney.devops.testing.utility.converter.web.dto.ResponseDto;
+
 @RestController
 @CrossOrigin("*")
 public class UdpConverterWsController {
+	
+	private static final Logger logger = LoggerFactory.getLogger(UdpConverterWsController.class);
+
 	
 	@Autowired
 	private UdpConverter converter;
 
 	
 	@PostMapping("/udp/toJson")
-	public ResponseEntity<String> convertUdpToJson(@RequestBody Map<String, String> payload) {
+	public ResponseEntity<ResponseDto<String>> convertUdpToJson(@RequestBody Map<String, String> payload) {
 		try {
-			String result = converter.convertUdpToJsonString(payload.get("payload"));
-			System.out.println(result);
-			return ResponseEntity.ok(result);
+			String json = converter.convertUdpToJsonString(payload.get("payload"));
+			ResponseDto<String>  response = new ResponseDto<>(json, "Success", Boolean.TRUE);
+			return ResponseEntity.ok(response);
 		} catch (Exception e) {
-			// TODO Auto-generated catch block
-			e.printStackTrace();
-			return new ResponseEntity<>("Errore non gestito.", HttpStatus.INTERNAL_SERVER_ERROR);
+			logger.error(e.getMessage(), e);
+			ResponseDto<String>  response = new ResponseDto<>(e.getClass().toString() + " - " + e.getMessage(), Boolean.FALSE);
+			return ResponseEntity.ok(response);		
 		}
-		
 	}
 	
 

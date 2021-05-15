@@ -11,6 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mooney.devops.testing.utility.dashboard.web.dto.PostRequestDto;
+import com.mooney.devops.testing.utility.dashboard.web.dto.ResponseDto;
 
 @RestController
 public class RestWsController {
@@ -29,7 +30,7 @@ public class RestWsController {
 	
 	@PostMapping("/call")
 	public ResponseEntity<Object> sendPostRequestToUri(@RequestBody PostRequestDto<String> input) {
-		String result = this.httpClient.sendPostRequest(input);
+		ResponseDto result = this.httpClient.sendPostRequest(input);
 		return ResponseEntity.ok(result);
 	}
 

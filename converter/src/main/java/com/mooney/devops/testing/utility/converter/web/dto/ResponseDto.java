@@ -8,17 +8,15 @@ public class ResponseDto<T> {
 	
 	private String message;
 	
-	public ResponseDto(String message, boolean sucesfull) {
+	public ResponseDto(String message) {
 		super();
 		this.message = message;
-		this.succesfull = sucesfull;
 	}
 	
-	public ResponseDto(T payload, String message, boolean succesfull) {
+	public ResponseDto(T payload, String message) {
 		super();
 		this.payload = payload;
 		this.message = message;
-		this.succesfull = succesfull;
 	}
 
 	public T getPayload() {

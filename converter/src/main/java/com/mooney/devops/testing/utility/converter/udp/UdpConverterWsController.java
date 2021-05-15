@@ -29,12 +29,12 @@ public class UdpConverterWsController {
 	public ResponseEntity<ResponseDto<String>> convertUdpToJson(@RequestBody Map<String, String> payload) {
 		try {
 			String json = converter.convertUdpToJsonString(payload.get("payload"));
-			ResponseDto<String>  response = new ResponseDto<>(json, "Success", Boolean.TRUE);
+			ResponseDto<String>  response = new ResponseDto<>(json, "Success");
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			ResponseDto<String>  response = new ResponseDto<>(e.getClass().toString() + " - " + e.getMessage(), Boolean.FALSE);
-			return ResponseEntity.ok(response);		
+			ResponseDto<String>  response = new ResponseDto<>(e.getClass().toString() + " - " + e.getMessage());
+			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
 	}
 	

@@ -34,7 +34,7 @@ public class NavigationController {
 	@GetMapping(value = { "/", "/home", "/index" })
 	public String home(HttpServletRequest request, HttpServletResponse response, Model uiModel) {
 		uiModel.addAttribute("appsNameUrlMap", appsNameUrlMap);
-		return "/index";
+		return "index";
 	}
 	
 	@GetMapping(value = { "/app/{appName}" })
@@ -42,7 +42,7 @@ public class NavigationController {
 		String serviceListJson = this.httpClient.sendGetRequest(this.appsNameUrlMap.get(appName));
 		List<EndpointDto> serviceList = mapper.readValue(serviceListJson, new TypeReference<List<EndpointDto>>(){});
 		uiModel.addAttribute("serviceList", serviceList);
-		return "/app";
+		return "app";
 	}
 
 }

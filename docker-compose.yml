@@ -1,0 +1,17 @@
+version: '3.6'
+
+services:
+  utility-dashboard:
+    container_name: utility-dashboard
+    image: utility-dashboard:latest
+    ports:
+      - 8080:8080
+    restart:
+      on-failure
+  utility-converter:
+    container_name: utility-converter
+    image: utility-converter:latest
+    ports:
+      - 8081:8081
+    restart:
+      on-failure

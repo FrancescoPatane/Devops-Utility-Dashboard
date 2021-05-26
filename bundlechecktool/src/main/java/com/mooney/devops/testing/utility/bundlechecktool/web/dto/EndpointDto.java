@@ -1,4 +1,4 @@
-package com.mooney.devops.testing.utility.dashboard.web.dto;
+package com.mooney.devops.testing.utility.bundlechecktool.web.dto;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -13,10 +13,7 @@ public class EndpointDto {
 	
 	private List<String> inputParams;
 	
-
-	public EndpointDto() {
-		super();
-	}
+	
 
 	public EndpointDto(String path, String requestType, String interfaceType) {
 		super();
@@ -50,9 +47,6 @@ public class EndpointDto {
 		return inputParams;
 	}
 
-	public String toJsonString() {
-		return "{\"path\":\"" + this.path + "\", \"requestType\":\"" + this.requestType + "\", \"interfaceType\":\"" + this.interfaceType + "\"}";
-	}
 	
 	
 	

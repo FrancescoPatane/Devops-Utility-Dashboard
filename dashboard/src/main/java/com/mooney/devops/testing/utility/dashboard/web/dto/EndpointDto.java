@@ -4,15 +4,15 @@ import java.util.ArrayList;
 import java.util.List;
 
 public class EndpointDto {
-	
+
 	private String path;
-	
+
 	private String requestType;
-	
+
 	private String interfaceType;
-	
+
 	private List<String> inputParams;
-	
+
 
 	public EndpointDto() {
 		super();
@@ -25,7 +25,7 @@ public class EndpointDto {
 		this.interfaceType = interfaceType;
 		this.inputParams = new ArrayList<>(0);
 	}
-	
+
 	public EndpointDto(String path, String requestType, String interfaceType, List<String> params) {
 		super();
 		this.path = path;
@@ -45,16 +45,21 @@ public class EndpointDto {
 	public String getInterfaceType() {
 		return interfaceType;
 	}
-	
+
 	public List<String> getInputParams() {
 		return inputParams;
 	}
 
 	public String toJsonString() {
-		return "{\"path\":\"" + this.path + "\", \"requestType\":\"" + this.requestType + "\", \"interfaceType\":\"" + this.interfaceType + "\"}";
+		
+		return "{\"path\":\"" + 
+				this.path + "\", \"requestType\":\"" + 
+				this.requestType + "\", \"interfaceType\":\"" + 
+				this.interfaceType + 
+				"\"}";
 	}
-	
-	
-	
+
+
+
 
 }

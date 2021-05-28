@@ -1,13 +1,13 @@
 package com.mooney.devops.testing.utility.dashboard.web.dto;
 
-public class PostRequestDto<T> {
+public class PostRequestDto {
 	
 	private String path;
 	
-	private T payload;
+	private String payload;
 	
 
-	public PostRequestDto(String path,T payload) {
+	public PostRequestDto(String path,String payload) {
 		super();
 		this.path = path;
 		this.payload = payload;
@@ -21,7 +21,7 @@ public class PostRequestDto<T> {
 
 
 
-	public T getPayload() {
+	public String getPayload() {
 		return payload;
 	}
 

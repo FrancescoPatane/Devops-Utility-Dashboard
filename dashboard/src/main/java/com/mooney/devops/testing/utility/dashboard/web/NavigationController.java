@@ -39,9 +39,9 @@ public class NavigationController {
 	
 	@GetMapping(value = { "/app/{appName}" })
 	public String app(@PathVariable String appName, Model uiModel) throws JsonProcessingException {
-		String serviceListJson = this.httpClient.sendGetRequest(this.appsNameUrlMap.get(appName));
-		List<EndpointDto> serviceList = mapper.readValue(serviceListJson, new TypeReference<List<EndpointDto>>(){});
-		uiModel.addAttribute("serviceList", serviceList);
+//		String serviceListJson = this.httpClient.sendGetRequest(this.appsNameUrlMap.get(appName));
+//		List<EndpointDto> serviceList = mapper.readValue(serviceListJson, new TypeReference<List<EndpointDto>>(){});
+		uiModel.addAttribute("app", appName);
 		return "app";
 	}
 

@@ -21,10 +21,10 @@ public class HttpClientComponent {
 		return client.get().uri(uri).retrieve().bodyToMono(String.class).block();
 	}
 	
-	public ResponseDto sendPostRequest(PostRequestDto<String> requestData) {
+	public ResponseDto sendPostRequest(PostRequestDto requestData) {
 		return client.post().uri(requestData.getPath())
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
-				.body(Mono.just(requestData), PostRequestDto.class)
+				.body(Mono.just(requestData.getPayload()), String.class)
 				.exchangeToMono(response -> {
 					boolean succesfull = response.statusCode().equals(HttpStatus.OK);
 		             return response.bodyToMono(ResponseDto.class)

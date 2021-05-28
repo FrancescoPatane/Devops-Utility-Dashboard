@@ -22,14 +22,14 @@ public class RestWsController {
 	@Autowired
 	Map<String, String> appsNameUrlMap;
 	
-//	@GetMapping("/call/{app}")
-//	public ResponseEntity<Object> sendGetRequestToUri(@PathVariable String app) {
-//		String result = this.httpClient.sendGetRequest(this.appsNameUrlMap.get(app));
-//		return ResponseEntity.ok(result);
-//	}
+	@GetMapping("/app/{app}/services")
+	public ResponseEntity<Object> sendGetRequestToUri(@PathVariable String app) {
+		String serviceListJson = this.httpClient.sendGetRequest(this.appsNameUrlMap.get(app));
+		return ResponseEntity.ok(serviceListJson);
+	}
 	
 	@PostMapping("/call")
-	public ResponseEntity<Object> sendPostRequestToUri(@RequestBody PostRequestDto<String> input) {
+	public ResponseEntity<Object> sendPostRequestToUri(@RequestBody PostRequestDto input) {
 		ResponseDto result = this.httpClient.sendPostRequest(input);
 		return ResponseEntity.ok(result);
 	}

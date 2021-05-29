@@ -20,7 +20,7 @@ public class BaseWsController {
 	public ResponseEntity<List<EndpointDto>> getServiceList(HttpServletRequest request){
 		String baseUrl = this.getBaseUrl(request);
 		List<EndpointDto> endpoints = new ArrayList<>();
-		EndpointDto dto = new EndpointDto(baseUrl + "/udp/toJson", "POST", "JSON_TO_JSON");
+		EndpointDto dto = new EndpointDto(baseUrl + "/udp/toJson", "POST", "TEXT_TO_JSON");
 		endpoints.add(dto);
 		return ResponseEntity.ok(endpoints);
 	}

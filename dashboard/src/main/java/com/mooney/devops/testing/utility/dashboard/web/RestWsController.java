@@ -28,10 +28,18 @@ public class RestWsController {
 		return ResponseEntity.ok(serviceListJson);
 	}
 	
+	@SuppressWarnings("rawtypes")
 	@PostMapping("/call")
-	public ResponseEntity<Object> sendPostRequestToUri(@RequestBody PostRequestDto input) {
+	public ResponseEntity sendPostRequestToUri(@RequestBody PostRequestDto input) {
 		ResponseDto result = this.httpClient.sendPostRequest(input);
-		return ResponseEntity.ok(result);
+		
+		if(result.getPayload() instanceof byte[]) {
+			return ResponseEntity.ok(result);
+		}else {
+			return ResponseEntity.ok(result);
+		}
+		
+		
 	}
 
 }

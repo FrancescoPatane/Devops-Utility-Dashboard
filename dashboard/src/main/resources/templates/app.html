@@ -23,7 +23,6 @@
 		<div class="row m-top">
 			<div class="col-5">
 				<select class="form-select" id="endpointSelection" onchange="selectEndPoint">
-<!-- 					<option th:each="service : ${serviceList}" th:text="${service.path}" th:value="${service.toJsonString()}"></option> -->
 				</select>
 				</div>
 			<div class="col-5"></div>
@@ -36,35 +35,9 @@
 		<br>
 		<br>
 
-<div id="servicePanel"></div>
+<div id="servicePanel">
+</div>
 
-<!-- 		<div class="row m-top"> -->
-<!-- 			<div class="col-5"> -->
-<!-- 				<div class="row"> -->
-<!-- 					<div class="input-group mb-3"> -->
-<!-- 					  <div class="input-group-prepend"> -->
-<!-- 					    <span class="input-group-text" id="env1">env1</span> -->
-<!-- 					  </div> -->
-<!-- 					  <input type="text" class="form-control"> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 				<div class="row"> -->
-<!-- 					<div class="input-group mb-3"> -->
-<!-- 					  <div class="input-group-prepend"> -->
-<!-- 					    <span class="input-group-text" id="env1">env1</span> -->
-<!-- 					  </div> -->
-<!-- 					  <input type="text" class="form-control"> -->
-<!-- 					</div> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 			<div class="col-2"></div> -->
-<!-- 			<div class="col-5"> -->
-<!-- 				<div class="input-group"> -->
-<!-- 					<span class="input-group-text">Result</span> -->
-<!-- 					<textarea id="outputBox" class="form-control" ></textarea> -->
-<!-- 				</div> -->
-<!-- 			</div> -->
-<!-- 		</div> -->
 
 
 
@@ -77,7 +50,7 @@
 	<script type="text/javascript" th:src="@{/js/main.js}"></script>
 	<script type="text/javascript">
 		var app = "[[${app}]]";
-			getAppServices();
+		getAppServices();
 	</script>
 	
 	

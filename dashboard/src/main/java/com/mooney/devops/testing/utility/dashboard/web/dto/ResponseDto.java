@@ -1,14 +1,14 @@
 package com.mooney.devops.testing.utility.dashboard.web.dto;
 
-public class ResponseDto {
+public class ResponseDto<T> {
 	
-	private String payload;
+	private T payload;
 	
 	private boolean succesfull;
 	
 	private String message;
 	
-	public void setPayload(String payload) {
+	public void setPayload(T payload) {
 		this.payload = payload;
 	}
 
@@ -20,7 +20,7 @@ public class ResponseDto {
 		this.message = message;
 	}
 
-	public String getPayload() {
+	public T getPayload() {
 		return payload;
 	}
 

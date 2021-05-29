@@ -23,6 +23,8 @@ import org.springframework.stereotype.Component;
 import com.mooney.devops.testing.utility.bundlechecktool.nps.beans.BundleComparison;
 import com.mooney.devops.testing.utility.bundlechecktool.nps.utils.Constants;
 import com.mooney.devops.testing.utility.bundlechecktool.nps.utils.Utils;
+import com.mooney.devops.testing.utility.bundlechecktool.nps.utils.WorkbookUtils;
+import com.mooney.devops.testing.utility.bundlechecktool.web.dto.FileTransferDto;
 
 
 @Component
@@ -45,9 +47,12 @@ public class BundleComparator {
 	@Autowired
 	private Environment springEnv;
 	
+	@Autowired
+	private WorkbookUtils workbookUtils;
+	
 
 	
-	public List<BundleComparison> compareBundles(String env1, String env2) throws Exception {
+	public FileTransferDto compareBundles(String env1, String env2) throws Exception {
 		
 		logger.info("START compareBundles...");  
 		
@@ -87,11 +92,11 @@ public class BundleComparator {
 
 		List<BundleComparison> bundleComparisons = Utils.getBundleComparisonList(mainEnvironmentBundles, environmentToCheckBundles);
 
-//		logger.info("Preparing excel file... ");
-//		WorkbookUtils.createExcelFile(bundleComparisons);
-//		logger.info("File created! ");
+		logger.info("Preparing excel file... ");
+		FileTransferDto file = workbookUtils.createExcelFile(bundleComparisons, env1, env2);
+		logger.info("File created! ");
 		logger.info("Environments compared!");
-		return bundleComparisons;
+		return file;
 	}
 	
     private String getEnvConsoleUsername(String env, Environment springEnv) {

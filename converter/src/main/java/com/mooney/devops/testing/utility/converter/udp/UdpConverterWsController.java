@@ -15,7 +15,6 @@ import org.springframework.web.bind.annotation.RestController;
 import com.mooney.devops.testing.utility.converter.web.dto.ResponseDto;
 
 @RestController
-@CrossOrigin("*")
 public class UdpConverterWsController {
 	
 	private static final Logger logger = LoggerFactory.getLogger(UdpConverterWsController.class);
@@ -26,9 +25,9 @@ public class UdpConverterWsController {
 
 	
 	@PostMapping("/udp/toJson")
-	public ResponseEntity<ResponseDto<String>> convertUdpToJson(@RequestBody Map<String, String> payload) {
+	public ResponseEntity<ResponseDto<String>> convertUdpToJson(@RequestBody String payload) {
 		try {
-			String json = converter.convertUdpToJsonString(payload.get("payload"));
+			String json = converter.convertUdpToJsonString(payload);
 			ResponseDto<String>  response = new ResponseDto<>(json, "Success");
 			return ResponseEntity.ok(response);
 		} catch (Exception e) {

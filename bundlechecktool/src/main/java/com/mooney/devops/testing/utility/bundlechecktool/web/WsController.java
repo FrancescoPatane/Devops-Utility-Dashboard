@@ -20,6 +20,7 @@ import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mooney.devops.testing.utility.bundlechecktool.comparator.BundleComparator;
 import com.mooney.devops.testing.utility.bundlechecktool.nps.beans.BundleComparison;
 import com.mooney.devops.testing.utility.bundlechecktool.web.dto.EndpointDto;
+import com.mooney.devops.testing.utility.bundlechecktool.web.dto.FileTransferDto;
 import com.mooney.devops.testing.utility.bundlechecktool.web.dto.ResponseDto;
 
 
@@ -41,24 +42,27 @@ public class WsController {
 		List<String> paramsCompare = new ArrayList<>(2);
 		paramsCompare.add("env1");
 		paramsCompare.add("env2");
-		EndpointDto dto = new EndpointDto(baseUrl + "/compare", "POST", "PARAMS_TO_JSON", paramsCompare);
+		EndpointDto dto = new EndpointDto(baseUrl + "/compare", "POST", "PARAMS_TO_FILE", paramsCompare);
 		endpoints.add(dto);
 		return ResponseEntity.ok(endpoints);
 	}
 	
 	@PostMapping("/compare")
-	public ResponseEntity<ResponseDto> compare(@RequestBody Map<String, Object> payload){
+	public ResponseEntity<ResponseDto<FileTransferDto>> compare(@RequestBody Map<String, Object> payload){
+		ResponseEntity<ResponseDto<FileTransferDto>> response;
+		ResponseDto<FileTransferDto> responseData;
 		try {
 			String env1 = (String) payload.get("env1");
 			String env2 = (String) payload.get("env2");
-			List<BundleComparison> data = bundleComparator.compareBundles(env1, env2);
-			ResponseDto responseData = new ResponseDto(objectMapper.writeValueAsString(data), "Success");
-			return ResponseEntity.ok(responseData);
+			FileTransferDto file = bundleComparator.compareBundles(env1, env2);
+			responseData = new ResponseDto<>(file, Boolean.TRUE, "Success");
+			response = ResponseEntity.ok(responseData);
 		} catch (Exception e) {
 			logger.error(e.getMessage(), e);
-			ResponseDto response = new ResponseDto(e.getClass().toString() + " - " + e.getMessage());
-			return new ResponseEntity<>(response, HttpStatus.INTERNAL_SERVER_ERROR);
+			responseData = new ResponseDto<>(e.getClass().toString() + " - " + e.getMessage());
+			response = new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		return response;
 	}
 	
 	private String getBaseUrl(HttpServletRequest req) {

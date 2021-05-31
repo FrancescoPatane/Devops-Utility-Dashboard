@@ -33,7 +33,7 @@ function callService() {
             callServiceTextToJsonOutput();
             break;
         default:
-            console.log("ERROR - UNKNOWN INTERFACE TYPE");
+            console.log("ERROR - UNKNOWN INTERFACE TYPE " + selectedService.interfaceType);
     }
 }
 
@@ -98,7 +98,7 @@ function manageResponseFromServer(jsonResponse) {
                 manageJsonResponse(jsonResponse);
                 break;
             default:
-                console.log("ERROR - UNKNOWN INTERFACE TYPE");
+                console.log("ERROR - UNKNOWN INTERFACE TYPE " + selectedService.interfaceType);
         }
     } else {
         alert(jsonResponse.message)
@@ -165,7 +165,7 @@ function selectEndPoint() {
             rendering = '<div class="row m-top"> <div class="col-5"> <div class="input-group"> <span class="input-group-text">Parameters</span> <textarea id="inputBox" class="form-control" aria-label="With textarea"></textarea> </div> </div> <div class="col-2"></div> <div class="col-5"> <div class="input-group"> <span class="input-group-text">Result</span> <textarea id="outputBox" class="form-control" aria-label="With textarea"></textarea> </div> </div> </div>';
             break;
         default:
-            console.log("ERROR - UNKNOWN INTERFACE TYPE");
+            console.log("ERROR - UNKNOWN INTERFACE TYPE " + selectedService.interfaceType);
     }
     document.getElementById("servicePanel").innerHTML = rendering;
 }

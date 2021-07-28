@@ -1,7 +1,6 @@
 package com.mooney.devops.testing.utility.bundlechecktool.nps.utils;
 
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileOutputStream;
 import java.io.IOException;
 import java.nio.file.Files;
@@ -9,7 +8,6 @@ import java.time.LocalDateTime;
 import java.time.format.DateTimeFormatter;
 import java.util.Base64;
 import java.util.List;
-import java.util.Properties;
 import java.util.logging.Logger;
 
 import org.apache.poi.ss.usermodel.Cell;
@@ -25,7 +23,7 @@ import org.springframework.core.env.Environment;
 import org.springframework.stereotype.Component;
 
 import com.mooney.devops.testing.utility.bundlechecktool.nps.beans.BundleComparison;
-import com.mooney.devops.testing.utility.bundlechecktool.web.dto.FileTransferDto;
+import com.mooney.devops.testing.utility.common.web.dto.FileTransferDto;
 
 @Component
 public class WorkbookUtils {

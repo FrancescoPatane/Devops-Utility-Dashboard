@@ -48,6 +48,11 @@
             <artifactId>digipay-bean</artifactId>
             <version>1.0.18</version>
         </dependency>
+        <dependency>
+            <groupId>com.mooney.devops.testing.utility</groupId>
+            <artifactId>common</artifactId>
+            <version>0.0.1-SNAPSHOT</version>
+        </dependency>
 	</dependencies>
 
 	<build>

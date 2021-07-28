@@ -16,28 +16,25 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
-import com.fasterxml.jackson.databind.ObjectMapper;
 import com.mooney.devops.testing.utility.bundlechecktool.comparator.BundleComparator;
-import com.mooney.devops.testing.utility.bundlechecktool.nps.beans.BundleComparison;
-import com.mooney.devops.testing.utility.bundlechecktool.web.dto.EndpointDto;
-import com.mooney.devops.testing.utility.bundlechecktool.web.dto.FileTransferDto;
-import com.mooney.devops.testing.utility.bundlechecktool.web.dto.ResponseDto;
+import com.mooney.devops.testing.utility.common.web.AbstractServiceRestController;
+import com.mooney.devops.testing.utility.common.web.dto.EndpointDto;
+import com.mooney.devops.testing.utility.common.web.dto.FileTransferDto;
+import com.mooney.devops.testing.utility.common.web.dto.ResponseDto;
 
 
 @RestController()
-public class WsController {
+public class WsController extends AbstractServiceRestController{
 	
 	private static final Logger logger = LoggerFactory.getLogger(WsController.class);
 
-	private final ObjectMapper objectMapper = new ObjectMapper();
-	
 	@Autowired
 	BundleComparator bundleComparator;
 	
 	
 	@GetMapping("/services")
 	public ResponseEntity<List<EndpointDto>> getServiceList(HttpServletRequest request){
-		String baseUrl = this.getBaseUrl(request);
+		String baseUrl = super.getBaseUrl(request);
 		List<EndpointDto> endpoints = new ArrayList<>();
 		List<String> paramsCompare = new ArrayList<>(2);
 		paramsCompare.add("env1");
@@ -65,8 +62,5 @@ public class WsController {
 		return response;
 	}
 	
-	private String getBaseUrl(HttpServletRequest req) {
-	    return req.getScheme() + "://" + req.getServerName() + ":" + req.getServerPort() + req.getContextPath();
-	}
 
 }

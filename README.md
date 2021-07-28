@@ -1,5 +1,6 @@
 "# Devops-Utility-Dashboard" 
 
+root progetto common ---> mvn clean install
 
 
 root progetto dashboard ---> mvn clean compile package

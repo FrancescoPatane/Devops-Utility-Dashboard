@@ -1,14 +1,7 @@
 package com.mooney.devops.testing.utility.bundlechecktool.comparator;
 
-import java.io.IOException;
-import java.nio.charset.StandardCharsets;
-import java.nio.file.Files;
-import java.nio.file.Path;
-import java.nio.file.Paths;
 import java.util.List;
 import java.util.Map;
-import java.util.Properties;
-import java.util.stream.Collectors;
 
 import org.apache.commons.lang3.StringUtils;
 import org.apache.http.HttpResponse;
@@ -24,7 +17,7 @@ import com.mooney.devops.testing.utility.bundlechecktool.nps.beans.BundleCompari
 import com.mooney.devops.testing.utility.bundlechecktool.nps.utils.Constants;
 import com.mooney.devops.testing.utility.bundlechecktool.nps.utils.Utils;
 import com.mooney.devops.testing.utility.bundlechecktool.nps.utils.WorkbookUtils;
-import com.mooney.devops.testing.utility.bundlechecktool.web.dto.FileTransferDto;
+import com.mooney.devops.testing.utility.common.web.dto.FileTransferDto;
 
 
 @Component

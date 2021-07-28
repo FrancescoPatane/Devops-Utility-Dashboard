@@ -6,6 +6,10 @@ services:
     image: utility-dashboard:latest
     ports:
       - 8080:8080
+    volumes:
+      - type: bind
+        source: C:\projects\utility\devops-utility\config\dashboard\application.properties
+        target: /config/application.properties
     restart:
       on-failure
   utility-converter:

@@ -1,8 +1,11 @@
 var serviceList = [];
 
 const ALL_ENVS = ["rendiconti_svil","aml_svil","adapter_svil","sfe_svil","orchestrator_svil","swebs_svil","card_svil","rendiconti_test","aml_test","adapter_test","sfe_test","orchestrator_test","swebs_test","card_test","rendiconti_prod","aml_prod","adapter_prod","sfe_prod","orchestrator_prod","swebs_prod","card_prod","rendiconti_dr","aml_dr","adapter_dr","sfe_dr","orchestrator_dr","swebs_dr","card_dr"];
-	
 
+const SERVICES = ["adapter", "sfe", "orchestrator", "swebs", "card", "rendiconti", "aml"];
+
+const SVIL_MACHINES = ["s1npspas01.sisalpay5group.local","s1npspas02.sisalpay5group.local","s1npspas03.sisalpay5group.local","s1npspas04.sisalpay5group.local"];
+const TEST_MACHINES = ["t1npspas01.sisalpay5group.local","t1npspas02.sisalpay5group.local","t1npspas03.sisalpay5group.local","t1npspas04.sisalpay5group.local","t1npspas05.sisalpay5group.local","t1npspas06.sisalpay5group.local","t1npspas07.sisalpay5group.local","t1npspas08.sisalpay5group.local"];
 
 function getAppServices() {
     fetch("/app/" + app + "/services", {
@@ -36,6 +39,9 @@ function callService() {
         case 'TEXT_TO_JSON':
             callServiceTextToJsonOutput();
             break;
+		case 'ENV_REPORT':
+			callServiceEnvReportOutput();
+			break;
         default:
             console.log("ERROR - UNKNOWN INTERFACE TYPE " + selectedService.interfaceType);
     }
@@ -102,6 +108,19 @@ function callServiceSelectionsToJsonOutput() {
         .catch(err => console.log(err));
 }
 
+function callServiceEnvReportOutput(){
+	let accordion = '<div class="accordion" id="accordionReport">';
+	
+	SERVICES.forEach(e => {
+			accordion += '<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' + e + '" >' + e + '</button></h2><div id="collapse' + e + '" class="accordion-collapse collapse" data-bs-parent="#accordionReport"><div class="accordion-body"><div class="progress"><div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style="width: 100%"></div></div></div></div></div>';
+	});
+	
+	accordion += '</div>';
+//	document.getElementById("envReports").innerHTML = '<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" >Adapter</button></h2><div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionReport"><div class="accordion-body"><div class="progress"><div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style="width: 100%"></div></div></div></div></div>';
+	document.getElementById("envReports").innerHTML = accordion;
+}
+
+
 function prepareParams(inputs) {
     let paramData = {};
     for (let i = 0; i < inputs.length; i++) {
@@ -121,6 +140,9 @@ function manageResponseFromServer(jsonResponse) {
             case 'TEXT_TO_JSON':
                 manageJsonResponse(jsonResponse);
                 break;
+			case 'ENV_REPORT':
+				manageEnvReportReponse(jsonResponse);
+				break;
             default:
                 console.log("ERROR - UNKNOWN INTERFACE TYPE " + selectedService.interfaceType);
         }
@@ -173,6 +195,20 @@ function printAllHostsSelect(name){
 	return select;
 }
 
+function printEnvSelection(){
+//	return '<div class="row"><div class="col-3"><div class="input-group input-group-lg form-group"><label class="input-group-text">Environment</label><select class="form-select" id="environmentSelection" onchange="selectEnv()"><option>SVIL</option><option>TEST</option><option>PROD</option><option>DR</option></select></div></div></div>';
+	return '<div class="row"><div class="col-5"><div class="input-group input-group-lg form-group"><label class="input-group-text">Environment</label><select class="form-select" id="environmentSelection" onchange="selectEnv()"><option>s1npspas01.sisalpay5group.local</option><option>s1npspas02.sisalpay5group.local</option><option>s1npspas03.sisalpay5group.local</option><option>s1npspas04.sisalpay5group.local</option><option>t1npspas01.sisalpay5group.local</option><option>t1npspas02.sisalpay5group.local</option><option>t1npspas03.sisalpay5group.local</option><option>t1npspas04.sisalpay5group.local</option><option>t1npspas05.sisalpay5group.local</option><option>t1npspas06.sisalpay5group.local</option><option>t1npspas07.sisalpay5group.local</option><option>t1npspas08.sisalpay5group.local</option><option>PROD</option><option>DR</option></select></div></div></div>';
+
+}
+
+//function selectEnv(){
+//	let selected = document.getElementById("environmentSelection").value;
+//	console.log(selected);
+//	let reportPanel = "";
+//	SERVICES.forEach(e => {
+//		reportPanel+='<option>'+e+'</option>';
+//	});
+//}
 
 function selectEndPoint() {
     let selectedService = getEndpointSelected();
@@ -201,6 +237,11 @@ function selectEndPoint() {
         case 'TEXT_TO_JSON':
             rendering = '<div class="row m-top"> <div class="col-5"> <div class="input-group"> <span class="input-group-text">Parameters</span> <textarea id="inputBox" class="form-control" aria-label="With textarea"></textarea> </div> </div> <div class="col-2"></div> <div class="col-5"> <div class="input-group"> <span class="input-group-text">Result</span> <textarea id="outputBox" class="form-control" aria-label="With textarea"></textarea> </div> </div> </div>';
             break;
+		case 'ENV_REPORT':
+			rendering += printEnvSelection();
+			rendering += "</div><br><br><br>";
+			rendering += "<div id='envReports'></div>";
+			break;
         default:
             console.log("ERROR - UNKNOWN INTERFACE TYPE " + selectedService.interfaceType);
     }

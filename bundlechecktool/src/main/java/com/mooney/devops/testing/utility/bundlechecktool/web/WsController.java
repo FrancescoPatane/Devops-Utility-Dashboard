@@ -39,7 +39,7 @@ public class WsController extends AbstractServiceRestController{
 		List<String> paramsCompare = new ArrayList<>(2);
 		paramsCompare.add("env1");
 		paramsCompare.add("env2");
-		EndpointDto dto = new EndpointDto(baseUrl + "/compare", "POST", "HOSTS_TO_FILE", paramsCompare);
+		EndpointDto dto = new EndpointDto(baseUrl + "/compare", "POST", "HOSTS_TO_FILE", paramsCompare, null);
 		endpoints.add(dto);
 		return ResponseEntity.ok(endpoints);
 	}

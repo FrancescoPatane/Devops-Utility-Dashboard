@@ -17,14 +17,26 @@ public class HttpClientComponent {
 	private WebClient client = WebClient.create();
 	
 	
-	public String sendGetRequest(String uri) {
+	public String getExposedServices(String uri) {
 		return client.get().uri(uri).retrieve().bodyToMono(String.class).block();
 	}
 	
+	@SuppressWarnings("rawtypes")
 	public ResponseDto sendPostRequest(PostRequestDto requestData) {
 		return client.post().uri(requestData.getPath())
 				.header(HttpHeaders.CONTENT_TYPE, MediaType.APPLICATION_JSON_VALUE)
 				.body(Mono.just(requestData.getPayload()), String.class)
+				.exchangeToMono(response -> {
+					boolean succesfull = response.statusCode().equals(HttpStatus.OK);
+		             return response.bodyToMono(ResponseDto.class)
+		            		 .doOnNext(r -> r.setSuccesfull(succesfull));
+			     })
+				.block();
+	}
+	
+	@SuppressWarnings("rawtypes")
+	public ResponseDto sendGetRequest(String uri) {
+		return client.post().uri(uri)
 				.exchangeToMono(response -> {
 					boolean succesfull = response.statusCode().equals(HttpStatus.OK);
 		             return response.bodyToMono(ResponseDto.class)

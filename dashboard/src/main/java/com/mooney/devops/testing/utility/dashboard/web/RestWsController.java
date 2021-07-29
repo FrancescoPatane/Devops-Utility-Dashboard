@@ -23,8 +23,8 @@ public class RestWsController {
 	Map<String, String> appsNameUrlMap;
 	
 	@GetMapping("/app/{app}/services")
-	public ResponseEntity<Object> sendGetRequestToUri(@PathVariable String app) {
-		String serviceListJson = this.httpClient.sendGetRequest(this.appsNameUrlMap.get(app));
+	public ResponseEntity<String> getApplicationServiceList(@PathVariable String app) {
+		String serviceListJson = this.httpClient.getExposedServices(this.appsNameUrlMap.get(app));
 		return ResponseEntity.ok(serviceListJson);
 	}
 	
@@ -32,14 +32,14 @@ public class RestWsController {
 	@PostMapping("/call")
 	public ResponseEntity sendPostRequestToUri(@RequestBody PostRequestDto input) {
 		ResponseDto result = this.httpClient.sendPostRequest(input);
-		
-		if(result.getPayload() instanceof byte[]) {
-			return ResponseEntity.ok(result);
-		}else {
-			return ResponseEntity.ok(result);
-		}
-		
-		
+		return ResponseEntity.ok(result);
+	}
+	
+	@SuppressWarnings("rawtypes")
+	@GetMapping("/call")
+	public ResponseEntity sendGetRequestToUri(@RequestBody String uri) {
+		ResponseDto result = this.httpClient.sendGetRequest(uri);
+		return ResponseEntity.ok(result);
 	}
 
 }

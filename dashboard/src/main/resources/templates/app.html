@@ -22,12 +22,12 @@
 
 		<div class="row m-top">
 			<div class="col-5">
-				<select class="form-select" id="endpointSelection" onchange="selectEndPoint">
+				<select class="form-select" id="endpointSelection" onchange="selectEndPoint()">
 				</select>
 				</div>
 			<div class="col-5"></div>
 			<div class="col-2">
-				<button type="button" class="btn btn-primary" th:onclick="callService();">Chiama servizio</button>
+				<button type="button" class="btn btn-warning" th:onclick="callService();">Chiama servizio</button>
 			</div>
 		
 		</div>

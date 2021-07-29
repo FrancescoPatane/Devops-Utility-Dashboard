@@ -13,6 +13,8 @@ public class EndpointDto {
 	
 	private List<String> inputParams;
 	
+	private List<String> pathParams;
+	
 	
 
 	public EndpointDto(String path, String requestType, String interfaceType) {
@@ -21,14 +23,16 @@ public class EndpointDto {
 		this.requestType = requestType;
 		this.interfaceType = interfaceType;
 		this.inputParams = new ArrayList<>(0);
+		this.pathParams = new ArrayList<>(0);
 	}
 	
-	public EndpointDto(String path, String requestType, String interfaceType, List<String> params) {
+	public EndpointDto(String path, String requestType, String interfaceType, List<String> inputParams, List<String> pathParams) {
 		super();
 		this.path = path;
 		this.requestType = requestType;
 		this.interfaceType = interfaceType;
-		this.inputParams = params;
+		this.inputParams = inputParams;
+		this.pathParams = pathParams;
 	}
 
 	public String getPath() {
@@ -45,6 +49,10 @@ public class EndpointDto {
 	
 	public List<String> getInputParams() {
 		return inputParams;
+	}
+
+	public List<String> getPathParams() {
+		return pathParams;
 	}
 
 	

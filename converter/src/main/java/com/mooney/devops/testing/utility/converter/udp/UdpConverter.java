@@ -24,7 +24,7 @@ import com.vipera.sisal.retefisica.common.utils.ContentConversionUtils;
 
 @Component
 public class UdpConverter {
-	
+
 	private static final Logger logger = LoggerFactory.getLogger(UdpConverter.class);
 
 	private static final List<Integer> REQUEST_VERIFY = new ArrayList<>(Arrays.asList(8518, 6530, 6532, 7420, 8422, 6332, 6342, 7542, 6630));
@@ -32,20 +32,24 @@ public class UdpConverter {
 	private static final List<Integer> REQUEST_REPRINT = new ArrayList<>(Arrays.asList(6228));
 	private static final List<Integer> REQUEST_DIGIPAY = new ArrayList<>(Arrays.asList(8000));
 	private static final List<Integer> REQUEST_DOCUMENT = new ArrayList<>(Arrays.asList(9000));
-	
 
-	
-	public String convertUdpToJsonString(String udpMessage) throws Exception {
-		
 
-		logger.info("INPUT from OLS (hexa string blueprint.xml): "+udpMessage);
 
-		String[] res = this.convert(udpMessage);
-		logger.info("HEADER: "+res[0]);
-		logger.info("BODY: "+res[1]);
-		return "{\"header\": " + res[0] + ", \"body\": " + res[1] + "}";
+	public String convertUdpToJsonString(String udpMessage) {
+
+		try {
+			logger.info("INPUT from OLS (hexa string blueprint.xml): "+udpMessage);
+
+			String[] res = this.convert(udpMessage);
+			logger.info("HEADER: "+res[0]);
+			logger.info("BODY: "+res[1]);
+			return "{\"header\": " + res[0] + ", \"body\": " + res[1] + "}";
+		} catch (Exception e) {
+			logger.error(e.getMessage(), e);
+			throw new RuntimeException("Error compare bundles", e); 
+		}
 	}
-	
+
 	private String[] convert(String message) throws Exception {
 		logger.debug("*************** START ****************");
 
@@ -124,8 +128,8 @@ public class UdpConverter {
 
 		return result;
 	}
-	
-	
+
+
 	private static byte[] decodeHex(final String data) throws Exception {
 		return decodeHex(data.toCharArray());
 	}
@@ -151,7 +155,7 @@ public class UdpConverter {
 
 		return out;
 	}
-	
+
 	protected static int toDigit(final char ch, final int index) throws Exception {
 		final int digit = Character.digit(ch, 16);
 		if (digit == -1) {

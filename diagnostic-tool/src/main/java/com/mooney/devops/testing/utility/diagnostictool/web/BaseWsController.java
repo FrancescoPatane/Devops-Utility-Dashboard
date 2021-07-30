@@ -1,4 +1,4 @@
-package com.mooney.devops.testing.utility.converter.web;
+package com.mooney.devops.testing.utility.diagnostictool.web;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -20,7 +20,7 @@ public class BaseWsController extends AbstractRestCatalogueController{
 	public ResponseEntity<List<EndpointDto>> getServiceList(HttpServletRequest request){
 		String baseUrl = super.getBaseUrl(request);
 		List<EndpointDto> endpoints = new ArrayList<>();
-		EndpointDto dto = new EndpointDto(baseUrl + "/udp/toJson", "POST", "TEXT_TO_JSON");
+		EndpointDto dto = new EndpointDto(baseUrl + "/analysys/{env}", "GET", "ENV_REPORT");
 		endpoints.add(dto);
 		return ResponseEntity.ok(endpoints);
 	}

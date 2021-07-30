@@ -1,8 +1,8 @@
-package com.mooney.devops.testing.utility.common.web.dto;
+package com.mooney.devops.testing.utility.diagnostictool.web;
 
-public class ResponseDto {
+public class ResponseDto<T> {
 	
-	private Object payload;
+	private T payload;
 	
 	private Boolean succesfull;
 	
@@ -16,20 +16,20 @@ public class ResponseDto {
 		this.message = message;
 	}
 	
-	public ResponseDto(Object payload, String message) {
+	public ResponseDto(T payload, String message) {
 		super();
 		this.payload = payload;
 		this.message = message;
 	}
 	
-	public ResponseDto(Object payload, Boolean succesfull, String message) {
+	public ResponseDto(T payload, Boolean succesfull, String message) {
 		super();
 		this.payload = payload;
 		this.message = message;
 		this.succesfull = succesfull;
 	}
 
-	public Object getPayload() {
+	public T getPayload() {
 		return payload;
 	}
 

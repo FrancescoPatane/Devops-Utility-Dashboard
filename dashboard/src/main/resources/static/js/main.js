@@ -89,7 +89,7 @@ function callServiceParamsToJsonOutput() {
 }
 
 function callServiceSelectionsToJsonOutput() {
-	    let endpoint = getEndpointSelected();
+	let endpoint = getEndpointSelected();
     let inputs = document.getElementsByTagName("select");
     let payload = JSON.stringify(prepareParams(inputs));
     let data = {
@@ -109,16 +109,47 @@ function callServiceSelectionsToJsonOutput() {
 }
 
 function callServiceEnvReportOutput(){
-	let accordion = '<div class="accordion" id="accordionReport">';
 	
-	SERVICES.forEach(e => {
-			accordion += '<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' + e + '" >' + e + '</button></h2><div id="collapse' + e + '" class="accordion-collapse collapse" data-bs-parent="#accordionReport"><div class="accordion-body"><div class="progress"><div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style="width: 100%"></div></div></div></div></div>';
+	
+		let endpoint = getEndpointSelected();
+    let inputs = document.getElementsByTagName("select");
+    let payload = prepareParams(inputs);
+	console.log(payload);
+	let uri = payload.endpointSelection;
+	endpoint.pathParams.forEach(e => {
+		uri = uri.replace("{"+e+"}",payload[e]);
 	});
-	
-	accordion += '</div>';
-//	document.getElementById("envReports").innerHTML = '<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" >Adapter</button></h2><div id="collapseOne" class="accordion-collapse collapse show" data-bs-parent="#accordionReport"><div class="accordion-body"><div class="progress"><div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style="width: 100%"></div></div></div></div></div>';
-	document.getElementById("envReports").innerHTML = accordion;
+
+
+    let data = {
+        "path": uri,
+//        "payload": payload,
+		"httpMethod": endpoint.requestType
+    };
+    fetch("/call", {
+            method: "POST",
+            body: JSON.stringify(data),
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+        .then(response => response.json())
+        .then(json => manageResponseFromServer(json))
+        .catch(err => console.log(err));
 }
+	
+	
+	
+	
+//	let accordion = '<div class="accordion" id="accordionReport">';
+//	
+//	SERVICES.forEach(e => {
+//			accordion += '<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' + e + '" >' + e + '</button></h2><div id="collapse' + e + '" class="accordion-collapse collapse" data-bs-parent="#accordionReport"><div class="accordion-body"><div class="progress"><div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style="width: 100%"></div></div></div></div></div>';
+//	});
+//	
+//	accordion += '</div>';
+//	document.getElementById("envReports").innerHTML = accordion;
+//}
 
 
 function prepareParams(inputs) {
@@ -197,7 +228,7 @@ function printAllHostsSelect(name){
 
 function printEnvSelection(){
 //	return '<div class="row"><div class="col-3"><div class="input-group input-group-lg form-group"><label class="input-group-text">Environment</label><select class="form-select" id="environmentSelection" onchange="selectEnv()"><option>SVIL</option><option>TEST</option><option>PROD</option><option>DR</option></select></div></div></div>';
-	return '<div class="row"><div class="col-5"><div class="input-group input-group-lg form-group"><label class="input-group-text">Environment</label><select class="form-select" id="environmentSelection" onchange="selectEnv()"><option>s1npspas01.sisalpay5group.local</option><option>s1npspas02.sisalpay5group.local</option><option>s1npspas03.sisalpay5group.local</option><option>s1npspas04.sisalpay5group.local</option><option>t1npspas01.sisalpay5group.local</option><option>t1npspas02.sisalpay5group.local</option><option>t1npspas03.sisalpay5group.local</option><option>t1npspas04.sisalpay5group.local</option><option>t1npspas05.sisalpay5group.local</option><option>t1npspas06.sisalpay5group.local</option><option>t1npspas07.sisalpay5group.local</option><option>t1npspas08.sisalpay5group.local</option><option>PROD</option><option>DR</option></select></div></div></div>';
+	return '<div class="row"><div class="col-5"><div class="input-group input-group-lg form-group"><label class="input-group-text">Environment</label><select class="form-select" id="env" ><option>s1npspas01.sisalpay5group.local</option><option>s1npspas02.sisalpay5group.local</option><option>s1npspas03.sisalpay5group.local</option><option>s1npspas04.sisalpay5group.local</option><option>t1npspas01.sisalpay5group.local</option><option>t1npspas02.sisalpay5group.local</option><option>t1npspas03.sisalpay5group.local</option><option>t1npspas04.sisalpay5group.local</option><option>t1npspas05.sisalpay5group.local</option><option>t1npspas06.sisalpay5group.local</option><option>t1npspas07.sisalpay5group.local</option><option>t1npspas08.sisalpay5group.local</option><option>PROD</option><option>DR</option></select></div></div></div>';
 
 }
 

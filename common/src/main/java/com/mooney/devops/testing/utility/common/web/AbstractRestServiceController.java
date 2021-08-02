@@ -18,7 +18,7 @@ public abstract class AbstractRestServiceController {
     public ResponseEntity<ResponseDto> handleGenericException(HttpServletRequest request, Exception e) {
 		logger.error("UNMANAGED ERROR");
 		logger.error(e.getMessage(), e);
-		ResponseDto responseData = new ResponseDto(e.getClass().toString() + " - " + e.getMessage());
+		ResponseDto responseData = new ResponseDto(Boolean.FALSE, e.getClass().toString() + " - " + e.getMessage());
 		return new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
     }
 

@@ -4,7 +4,7 @@ public class ResponseDto {
 	
 	private Object payload;
 	
-	private Boolean succesfull;
+	private Boolean succesfull = Boolean.TRUE;
 	
 	private String message;
 	
@@ -22,9 +22,8 @@ public class ResponseDto {
 		this.message = message;
 	}
 	
-	public ResponseDto(Object payload, Boolean succesfull, String message) {
+	public ResponseDto(Boolean succesfull, String message) {
 		super();
-		this.payload = payload;
 		this.message = message;
 		this.succesfull = succesfull;
 	}
@@ -37,13 +36,23 @@ public class ResponseDto {
 		return message;
 	}
 
-	public boolean isSuccesfull() {
+	public boolean getSuccesfull() {
 		return succesfull;
 	}
 
 	public void setSuccesfull(Boolean succesfull) {
 		this.succesfull = succesfull;
 	}
+
+	public void setPayload(Object payload) {
+		this.payload = payload;
+	}
+
+	public void setMessage(String message) {
+		this.message = message;
+	}
+	
+	
 	
 	
 	

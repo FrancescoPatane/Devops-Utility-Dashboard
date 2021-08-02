@@ -20,7 +20,9 @@ public class BaseWsController extends AbstractRestCatalogueController{
 	public ResponseEntity<List<EndpointDto>> getServiceList(HttpServletRequest request){
 		String baseUrl = super.getBaseUrl(request);
 		List<EndpointDto> endpoints = new ArrayList<>();
-		EndpointDto dto = new EndpointDto(baseUrl + "/analysys/{env}", "GET", "ENV_REPORT");
+		List<String> pathParams = new ArrayList<>(1);
+		pathParams.add("env");
+		EndpointDto dto = new EndpointDto(baseUrl + "/analyze/{env}", "GET", "ENV_REPORT", "com.mooney.devops.testing.utility.common.web.dto.env.EnvironmentStatusDto", pathParams);
 		endpoints.add(dto);
 		return ResponseEntity.ok(endpoints);
 	}

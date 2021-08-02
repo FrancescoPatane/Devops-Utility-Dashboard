@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.mooney.devops.testing.utility.common.web.dto.ResponseDto;
-import com.mooney.devops.testing.utility.dashboard.web.dto.PostRequestDto;
+import com.mooney.devops.testing.utility.dashboard.web.dto.RequestDto;
 
 @RestController
 public class RestWsController {
@@ -30,16 +30,21 @@ public class RestWsController {
 	
 	@SuppressWarnings("rawtypes")
 	@PostMapping("/call")
-	public ResponseEntity sendPostRequestToUri(@RequestBody PostRequestDto input) {
-		ResponseDto result = this.httpClient.sendPostRequest(input);
+	public ResponseEntity sendPostRequestToUri(@RequestBody RequestDto input) {
+		ResponseDto result;
+		if (input.getHttpMethod().equals("POST")) {
+			result = this.httpClient.sendPostRequest(input);
+		}else {
+			result = this.httpClient.sendGetRequest(input.getPath(), input.getDtoClass());
+		}
 		return ResponseEntity.ok(result);
 	}
 	
-	@SuppressWarnings("rawtypes")
-	@GetMapping("/call")
-	public ResponseEntity sendGetRequestToUri(@RequestBody String uri) {
-		ResponseDto result = this.httpClient.sendGetRequest(uri);
-		return ResponseEntity.ok(result);
-	}
+//	@SuppressWarnings("rawtypes")
+//	@PostMapping("/call/{target}")
+//	public ResponseEntity sendGetRequestToUri(@PathVariable String target) {
+//		ResponseDto result = this.httpClient.sendGetRequest(target);
+//		return ResponseEntity.ok(result);
+//	}
 
 }

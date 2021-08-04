@@ -18,8 +18,12 @@ textarea {
 	min-height: 300px !important;
 }
 
-.fa-exclamation-triangle{
+.fa-exclamation-triangle, .fa-times{
 	color: red;
+}
+
+.fa-check{
+	color: green;
 }
 
 /* .accordion-button.collapsed::after { */

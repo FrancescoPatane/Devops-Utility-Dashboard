@@ -178,9 +178,9 @@ function manageEnvReportReponse(jsonResponse) {
 	let html = "<fieldset>";
 	let header = '<div class="row"><div class="col-12"> <h4>HOST: '+ payload.OS_INFO.Name + ' - ' + payload.OS_INFO.HOST +'</h4></div></div>';
 	html += header;
-	let mem = '<div class="row"> <div class="col-3"> <div class="card"> <div class="card-body"> <h5 class="card-title">Memory</h5> <p class="card-text"> <ul> <li>Total: ' + payload.OS_INFO.MEM.Tot + '</li> <li>Used: '+payload.OS_INFO.MEM.Used+'</li> <li>Free: '+payload.OS_INFO.MEM.Free+'</li> <li>Available: '+payload.OS_INFO.MEM.Available+'</li> </ul> </p> </div> </div> </div> <div class="col-3"> <div class="card"> <div class="card-body"> <h5 class="card-title">SWAP</h5> <p class="card-text"> <ul> <li>Total: '+payload.OS_INFO.SWAP.Available+'</li> <li>Used: '+payload.OS_INFO.SWAP.Used+'</li> <li>Free: '+payload.OS_INFO.SWAP.Free+'</li> </ul> </p> </div> </div> </div> <div class="col-6"> <div class="card"> <div class="card-body"> <h5 class="card-title">Docker data-root</h5> <p class="card-text"> <ul> <li>File System: '+payload.OS_INFO['Docker data-root'].FS+'</li> <li>Dimensioni</li> <li>Used: '+payload.OS_INFO['Docker data-root'].Usati+'</li> <li>Available: '+payload.OS_INFO['Docker data-root']['Dispon.']+'</li> <li>Uso%: '+payload.OS_INFO['Docker data-root']['Uso%']+'</li> <li>Montato su: '+payload.OS_INFO['Docker data-root']['Montato su']+'</li> </ul> </p> </div> </div> </div> </div>';
+	let mem = '<div class="container"><div class="row"> <div class="col-3"> <div class="card"> <div class="card-body"> <h5 class="card-title">Memory</h5> <p class="card-text"> <ul> <li>Total: ' + payload.OS_INFO.MEM.Tot + '</li> <li>Used: '+payload.OS_INFO.MEM.Used+'</li> <li>Free: '+payload.OS_INFO.MEM.Free+'</li> <li>Available: '+payload.OS_INFO.MEM.Available+'</li> </ul> </p> </div> </div> </div> <div class="col-3"> <div class="card"> <div class="card-body"> <h5 class="card-title">SWAP</h5> <p class="card-text"> <ul> <li>Total: '+payload.OS_INFO.SWAP.Available+'</li> <li>Used: '+payload.OS_INFO.SWAP.Used+'</li> <li>Free: '+payload.OS_INFO.SWAP.Free+'</li> </ul> </p> </div> </div> </div> <div class="col-6"> <div class="card"> <div class="card-body"> <h5 class="card-title">Docker data-root</h5> <p class="card-text"> <ul> <li>File System: '+payload.OS_INFO['Docker data-root'].FS+'</li> <li>Dimensioni</li> <li>Used: '+payload.OS_INFO['Docker data-root'].Usati+'</li> <li>Available: '+payload.OS_INFO['Docker data-root']['Dispon.']+'</li> <li>Uso%: '+payload.OS_INFO['Docker data-root']['Uso%']+'</li> <li>Montato su: '+payload.OS_INFO['Docker data-root']['Montato su']+'</li> </ul> </p> </div> </div> </div> </div>';
 	html += mem;
-	let accordion = '<div class="accordion m-top" id="accordionReport">';
+	html += '<div class="accordion m-top" id="accordionReport">';
 	let containersHtml = '<div class="accordion-item"> <h2 class="accordion-header"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" > Container Docker </button> </h2> <div id="collapseOne" class="accordion-collapse collapse"  data-bs-parent="#accordionReport"> <div class="accordion-body"> <ol class="list-group">';
 	payload.DOCKER.CONTAINER_ALL.forEach(e => {
 		containersHtml+= '<li class="list-group-item d-flex "><div class="ms-2 me-auto"><div class="fw-bold">' + e.NAME + '-' + e.IMAGES  + '-' +  e.STATUS + '</div>' + e.PORTS + ' </div></li>';
@@ -195,8 +195,9 @@ function manageEnvReportReponse(jsonResponse) {
 				karafWarning += '<i class="fa fa-exclamation-triangle"></i>';
 			}
 			let karafHtml = '<div class="accordion-item"> <h2 class="accordion-header" id="heading'+i+'"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">Servizi Karaf'+karafWarning+'</button> </h2> <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionReport"> <div class="accordion-body">';
-			
-			karafHtml += '<div class="row m-top"> <div class="col-6"> <p>Container: Card</p> </div> <div class="col-6"> </div> </div> <div class="row"> <div class="col-6"> <div class="card" > <div class="card-header"> Bundle Status </div> <ul class="list-group list-group-flush">';
+			let http = e.PAX_WEB_PORTS['org.osgi.service.http.enabled'] ? '<span>HTTP <i class="fa fa-check"></i></span>' : '<span>HTTPS <i class="fa fa-times"></i></span>';
+			let https = e.PAX_WEB_PORTS['org.osgi.service.http.secure.enabled'] ? '<span>HTTPS <i class="fa fa-check"></i></span>' : '<span>HTTPS <i class="fa fa-times"></i></span>';
+			karafHtml += '<div class="row m-top"> <div class="col-6"> <p>Container: '+e.CONTAINER+'</p> </div> <div class="col-6"><ul style="list-style-type: none;"> <li >'+http+'</li><li >'+https+'</li> </ul> </div> </div> <div class="row"> <div class="col-6"> <div class="card" > <div class="card-header"> Bundle Status </div> <ul class="list-group list-group-flush">';
 			e.BUNDLE_STATUS.forEach(e => {
 				karafHtml += '<li class="list-group-item"> <span>'+ e.NAME +' - '+ e.VER +'1.3.2 - ' + e.STATUS +'</span> </li>';
 			});
@@ -207,7 +208,7 @@ function manageEnvReportReponse(jsonResponse) {
 			html += karafHtml;
 		});
 	
-	html += "</div></fieldset>";
+	html += "</div></div></fieldset>";
 	console.log(html);
 	document.getElementById("envReports").innerHTML = html;
 	

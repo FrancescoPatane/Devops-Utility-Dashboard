@@ -141,16 +141,6 @@ function callServiceEnvReportOutput(){
 	
 	
 	
-//	let accordion = '<div class="accordion" id="accordionReport">';
-//	
-//	SERVICES.forEach(e => {
-//			accordion += '<div class="accordion-item"><h2 class="accordion-header"><button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapse' + e + '" >' + e + '</button></h2><div id="collapse' + e + '" class="accordion-collapse collapse" data-bs-parent="#accordionReport"><div class="accordion-body"><div class="progress"><div class="progress-bar progress-bar-striped bg-warning progress-bar-animated" role="progressbar" style="width: 100%"></div></div></div></div></div>';
-//	});
-//	
-//	accordion += '</div>';
-//	document.getElementById("envReports").innerHTML = accordion;
-//}
-
 
 function prepareParams(inputs) {
     let paramData = {};
@@ -180,6 +170,39 @@ function manageResponseFromServer(jsonResponse) {
     } else {
         alert(jsonResponse.message)
     }
+}
+
+function manageEnvReportReponse(jsonResponse) {
+	let payload = jsonResponse.payload;
+	console.log(payload);
+	let html = "<fieldset>";
+	let header = '<div class="row"><div class="col-12"> <h4>HOST: '+ payload.OS_INFO.Name + ' - ' + payload.OS_INFO.HOST +'</h4></div></div>';
+	html += header;
+	let mem = '<div class="row"> <div class="col-3"> <div class="card"> <div class="card-body"> <h5 class="card-title">Memory</h5> <p class="card-text"> <ul> <li>Total: ' + payload.OS_INFO.MEM.Tot + '</li> <li>Used: '+payload.OS_INFO.MEM.Used+'</li> <li>Free: '+payload.OS_INFO.MEM.Free+'</li> <li>Available: '+payload.OS_INFO.MEM.Available+'</li> </ul> </p> </div> </div> </div> <div class="col-3"> <div class="card"> <div class="card-body"> <h5 class="card-title">SWAP</h5> <p class="card-text"> <ul> <li>Total: '+payload.OS_INFO.SWAP.Available+'</li> <li>Used: '+payload.OS_INFO.SWAP.Used+'</li> <li>Free: '+payload.OS_INFO.SWAP.Free+'</li> </ul> </p> </div> </div> </div> <div class="col-6"> <div class="card"> <div class="card-body"> <h5 class="card-title">Docker data-root</h5> <p class="card-text"> <ul> <li>File System: '+payload.OS_INFO['Docker data-root'].FS+'</li> <li>Dimensioni</li> <li>Used: '+payload.OS_INFO['Docker data-root'].Usati+'</li> <li>Available: '+payload.OS_INFO['Docker data-root']['Dispon.']+'</li> <li>Uso%: '+payload.OS_INFO['Docker data-root']['Uso%']+'</li> <li>Montato su: '+payload.OS_INFO['Docker data-root']['Montato su']+'</li> </ul> </p> </div> </div> </div> </div>';
+	html += mem;
+	let accordion = '<div class="accordion m-top" id="accordionReport">';
+	let containersHtml = '<div class="accordion-item"> <h2 class="accordion-header" id="headingOne"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" > Container Docker </button> </h2> <div id="collapseOne" class="accordion-collapse collapse"  data-bs-parent="#accordionReport"> <div class="accordion-body"> <ol class="list-group">';
+	payload.DOCKER.CONTAINER_ALL.forEach(e => {
+		containersHtml+= '<li class="list-group-item d-flex "><div class="ms-2 me-auto"><div class="fw-bold">' + e.NAME + '-' + e.IMAGES  + '-' +  e.STATUS + '</div>' + e.PORTS + ' </div></li>';
+
+	});
+	containersHtml+= '</ol></div></div>';
+	html += containersHtml;
+	let karafHtml = '<div class="accordion-item"> <h2 class="accordion-header" id="headingTwo"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo"> Servizi Karaf </button> </h2> <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionReport"> <div class="accordion-body">';
+	payload.DOCKER.KARAF.SERVICES.forEach(e => {
+			karafHtml += '<div class="row m-top"> <div class="col-6"> <p>Container: Card</p> </div> <div class="col-6"> </div> </div> <div class="row"> <div class="col-6"> <div class="card" > <div class="card-header"> Bundle Status </div> <ul class="list-group list-group-flush">';
+			e.BUNDLE_STATUS.forEach(e => {
+				karafHtml += '<li class="list-group-item"> <span>'+ e.NAME +' - '+ e.VER +'1.3.2 - ' + e.STATUS +'</span> </li>';
+			});
+			karafHtml += '</ul></div></div><div class="col-6"> <div class="card" > <div class="card-header"> Stopped Camel Routes </div> <ul class="list-group list-group-flush">';
+			e.CAMEL_ROUTE_STOPPED.forEach(e => {
+				karafHtml += '<li class="list-group-item"> <span>'+ e.Name +' - ' + e.Context + '</span> <span>'+ e.Status +' - '+e.Total+' '+ e.Inflight+' '+ e.Failed + '</span> </li>';
+			});	
+		});
+		html += karafHtml;
+	html += "</div></fieldset>";
+	console.log(html);
+	document.getElementById("envReports").innerHTML = html;
 }
 
 function manageJsonResponse(jsonResponse) {
@@ -227,19 +250,10 @@ function printAllHostsSelect(name){
 }
 
 function printEnvSelection(){
-//	return '<div class="row"><div class="col-3"><div class="input-group input-group-lg form-group"><label class="input-group-text">Environment</label><select class="form-select" id="environmentSelection" onchange="selectEnv()"><option>SVIL</option><option>TEST</option><option>PROD</option><option>DR</option></select></div></div></div>';
 	return '<div class="row"><div class="col-5"><div class="input-group input-group-lg form-group"><label class="input-group-text">Environment</label><select class="form-select" id="env" ><option>s1npspas01.sisalpay5group.local</option><option>s1npspas02.sisalpay5group.local</option><option>s1npspas03.sisalpay5group.local</option><option>s1npspas04.sisalpay5group.local</option><option>t1npspas01.sisalpay5group.local</option><option>t1npspas02.sisalpay5group.local</option><option>t1npspas03.sisalpay5group.local</option><option>t1npspas04.sisalpay5group.local</option><option>t1npspas05.sisalpay5group.local</option><option>t1npspas06.sisalpay5group.local</option><option>t1npspas07.sisalpay5group.local</option><option>t1npspas08.sisalpay5group.local</option><option>PROD</option><option>DR</option></select></div></div></div>';
 
 }
 
-//function selectEnv(){
-//	let selected = document.getElementById("environmentSelection").value;
-//	console.log(selected);
-//	let reportPanel = "";
-//	SERVICES.forEach(e => {
-//		reportPanel+='<option>'+e+'</option>';
-//	});
-//}
 
 function selectEndPoint() {
     let selectedService = getEndpointSelected();
@@ -278,3 +292,4 @@ function selectEndPoint() {
     }
     document.getElementById("servicePanel").innerHTML = rendering;
 }
+

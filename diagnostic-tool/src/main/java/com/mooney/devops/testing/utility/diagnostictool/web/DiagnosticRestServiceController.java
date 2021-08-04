@@ -52,6 +52,7 @@ public class DiagnosticRestServiceController extends AbstractRestServiceControll
 			ResponseDto responseData = new ResponseDto(e.getMessage() + " - " + "Remote server analysys output is not valid json");
 			return new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
 		}
+		result.getDocker().getKaraf().getServices().stream();
 		ResponseDto response = new ResponseDto(result, "Success");
 		return ResponseEntity.ok(response);
 	}

@@ -11,31 +11,27 @@ public class EndpointDto {
 	
 	private String interfaceType;
 	
-	private String dtoClass;
-	
-//	private List<String> inputParams;
+	private List<String> inputParams;
 	
 	private List<String> pathParams;
 	
 	
 
-	public EndpointDto(String path, String requestType, String interfaceType, String dtoClass) {
+	public EndpointDto(String path, String requestType, String interfaceType) {
 		super();
 		this.path = path;
 		this.requestType = requestType;
 		this.interfaceType = interfaceType;
-		this.dtoClass = dtoClass;
-//		this.inputParams = new ArrayList<>(0);
+		this.inputParams = new ArrayList<>(0);
 		this.pathParams = new ArrayList<>(0);
 	}
 	
-	public EndpointDto(String path, String requestType, String interfaceType, String dtoClass,/*List<String> inputParams,*/ List<String> pathParams) {
+	public EndpointDto(String path, String requestType, String interfaceType, List<String> inputParams, List<String> pathParams) {
 		super();
 		this.path = path;
 		this.requestType = requestType;
 		this.interfaceType = interfaceType;
-		this.dtoClass = dtoClass;
-//		this.inputParams = inputParams;
+		this.inputParams = inputParams;
 		this.pathParams = pathParams;
 	}
 
@@ -51,17 +47,14 @@ public class EndpointDto {
 		return interfaceType;
 	}
 	
-//	public List<String> getInputParams() {
-//		return inputParams;
-//	}
+	public List<String> getInputParams() {
+		return inputParams;
+	}
 
 	public List<String> getPathParams() {
 		return pathParams;
 	}
 
-	public String getDtoClass() {
-		return dtoClass;
-	}
 
 	
 	

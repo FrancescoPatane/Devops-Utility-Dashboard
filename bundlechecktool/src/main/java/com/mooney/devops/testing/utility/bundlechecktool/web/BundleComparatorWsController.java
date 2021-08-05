@@ -30,7 +30,7 @@ public class BundleComparatorWsController extends AbstractRestServiceController{
 		String env1 = input.getEnv1();
 		String env2 = input.getEnv2();
 		FileTransferDto file = bundleComparator.compareBundles(env1, env2);
-		responseData = new ResponseDto(file, Boolean.TRUE, "Success");
+		responseData = new ResponseDto(file, "Success");
 		response = ResponseEntity.ok(responseData);
 		return response;
 	}

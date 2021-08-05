@@ -3,6 +3,7 @@ package com.mooney.devops.testing.utility.dashboard.web;
 import java.util.Map;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PathVariable;
@@ -16,11 +17,28 @@ import com.mooney.devops.testing.utility.dashboard.web.dto.RequestDto;
 @RestController
 public class RestWsController {
 	
+	@Value("${environments}")
+	private String[] environments;
+	
+	@Value("${hosts}")
+	private String[] hosts;
+	
 	@Autowired
 	HttpClientComponent httpClient;
 	
 	@Autowired
 	Map<String, String> appsNameUrlMap;
+	
+	@GetMapping("/environments")
+	public ResponseEntity<String[]> getEnvironmentsList() {
+		return ResponseEntity.ok(environments);
+	}
+	
+	@GetMapping("/hosts")
+	public ResponseEntity<String[]> getHostList() {
+		return ResponseEntity.ok(hosts);
+	}
+	
 	
 	@GetMapping("/app/{app}/services")
 	public ResponseEntity<String> getApplicationServiceList(@PathVariable String app) {

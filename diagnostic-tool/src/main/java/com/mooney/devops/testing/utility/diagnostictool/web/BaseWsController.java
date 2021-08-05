@@ -22,7 +22,7 @@ public class BaseWsController extends AbstractRestCatalogueController{
 		List<EndpointDto> endpoints = new ArrayList<>();
 		List<String> pathParams = new ArrayList<>(1);
 		pathParams.add("env");
-		EndpointDto dto = new EndpointDto(baseUrl + "/analyze/{env}", "GET", "ENV_REPORT", "com.mooney.devops.testing.utility.common.web.dto.env.EnvironmentStatusDto", pathParams);
+		EndpointDto dto = new EndpointDto(baseUrl + "/analyze/{env}", "GET", "ENV_REPORT", null, pathParams);
 		endpoints.add(dto);
 		return ResponseEntity.ok(endpoints);
 	}

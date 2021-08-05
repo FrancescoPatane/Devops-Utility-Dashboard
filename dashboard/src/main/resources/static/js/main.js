@@ -1,11 +1,5 @@
 var serviceList = [];
 
-const ALL_ENVS = ["rendiconti_svil","aml_svil","adapter_svil","sfe_svil","orchestrator_svil","swebs_svil","card_svil","rendiconti_test","aml_test","adapter_test","sfe_test","orchestrator_test","swebs_test","card_test","rendiconti_prod","aml_prod","adapter_prod","sfe_prod","orchestrator_prod","swebs_prod","card_prod","rendiconti_dr","aml_dr","adapter_dr","sfe_dr","orchestrator_dr","swebs_dr","card_dr"];
-
-const SERVICES = ["adapter", "sfe", "orchestrator", "swebs", "card", "rendiconti", "aml"];
-
-const SVIL_MACHINES = ["s1npspas01.sisalpay5group.local","s1npspas02.sisalpay5group.local","s1npspas03.sisalpay5group.local","s1npspas04.sisalpay5group.local"];
-const TEST_MACHINES = ["t1npspas01.sisalpay5group.local","t1npspas02.sisalpay5group.local","t1npspas03.sisalpay5group.local","t1npspas04.sisalpay5group.local","t1npspas05.sisalpay5group.local","t1npspas06.sisalpay5group.local","t1npspas07.sisalpay5group.local","t1npspas08.sisalpay5group.local"];
 
 function getAppServices() {
     fetch("/app/" + app + "/services", {
@@ -192,12 +186,12 @@ function manageEnvReportReponse(jsonResponse) {
 	payload.DOCKER.KARAF.SERVICES.forEach(function (e, i) {
 		let karafWarning = '';
 			if ( e.CAMEL_ROUTE_STOPPED.length>0 || BUNDLE_STATUS.length>0){
-				karafWarning += '<i class="fa fa-exclamation-triangle"></i>';
+				karafWarning += '&nbsp;<i class="fa fa-exclamation-triangle"></i>';
 			}
 			let karafHtml = '<div class="accordion-item"> <h2 class="accordion-header" id="heading'+i+'"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseTwo">Servizi Karaf'+karafWarning+'</button> </h2> <div id="collapseTwo" class="accordion-collapse collapse" data-bs-parent="#accordionReport"> <div class="accordion-body">';
-			let http = e.PAX_WEB_PORTS['org.osgi.service.http.enabled'] ? '<span>HTTP <i class="fa fa-check"></i></span>' : '<span>HTTPS <i class="fa fa-times"></i></span>';
-			let https = e.PAX_WEB_PORTS['org.osgi.service.http.secure.enabled'] ? '<span>HTTPS <i class="fa fa-check"></i></span>' : '<span>HTTPS <i class="fa fa-times"></i></span>';
-			karafHtml += '<div class="row m-top"> <div class="col-6"> <p>Container: '+e.CONTAINER+'</p> </div> <div class="col-6"><ul style="list-style-type: none;"> <li >'+http+'</li><li >'+https+'</li> </ul> </div> </div> <div class="row"> <div class="col-6"> <div class="card" > <div class="card-header"> Bundle Status </div> <ul class="list-group list-group-flush">';
+			let http = e.PAX_WEB_PORTS['org.osgi.service.http.enabled'] ? '<span class="badge bg-success">HTTP</span>' : '<span class="badge bg-warning">HTTPS</span>';
+			let https = e.PAX_WEB_PORTS['org.osgi.service.http.secure.enabled'] ? '<span class="badge bg-success">HTTPS</span>' : '<span class="badge bg-warning">HTTPS</span>';
+			karafHtml += '<div class="row m-top"> <div class="col-6"> <p>Container: '+e.CONTAINER+'</p> </div> <div class="col-6">'+http+'&nbsp;'+https+'</div> </div> <div class="row m-top"> <div class="col-6"> <div class="card" > <div class="card-header"> Bundle Status </div> <ul class="list-group list-group-flush">';
 			e.BUNDLE_STATUS.forEach(e => {
 				karafHtml += '<li class="list-group-item"> <span>'+ e.NAME +' - '+ e.VER +'1.3.2 - ' + e.STATUS +'</span> </li>';
 			});
@@ -249,18 +243,47 @@ function getEndpointSelected() {
     return selectedService;
 }
 
-function printAllHostsSelect(name){
-	let select = '<select class="form-select" id="'+name+'">';
-	ALL_ENVS.forEach(e => {
+function printAllHostsSelectHtml(hosts, name){
+	let select = '';
+	hosts.forEach(e => {
 		select+='<option>'+e+'</option>';
 	});
-	select+='</select>';
-	return select;
+	return document.getElementById(name).innerHTML = select;
 }
 
-function printEnvSelection(){
-	return '<div class="row"><div class="col-5"><div class="input-group input-group-lg form-group"><label class="input-group-text">Environment</label><select class="form-select" id="env" ><option>s1npspas01.sisalpay5group.local</option><option>s1npspas02.sisalpay5group.local</option><option>s1npspas03.sisalpay5group.local</option><option>s1npspas04.sisalpay5group.local</option><option>t1npspas01.sisalpay5group.local</option><option>t1npspas02.sisalpay5group.local</option><option>t1npspas03.sisalpay5group.local</option><option>t1npspas04.sisalpay5group.local</option><option>t1npspas05.sisalpay5group.local</option><option>t1npspas06.sisalpay5group.local</option><option>t1npspas07.sisalpay5group.local</option><option>t1npspas08.sisalpay5group.local</option><option>PROD</option><option>DR</option></select></div></div></div>';
+function printAllHostsSelect(name){
+		    fetch("/hosts", {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+        .then(response => response.json())
+        .then(json => printAllHostsSelectHtml(json, name))
+        .catch(err => console.log(err))
+}
 
+function printHtmlEnvSelection(envs){
+	
+		let select =  '<div class="row"><div class="col-5"><div class="input-group input-group-lg form-group"><label class="input-group-text">Environment</label><select class="form-select" id="env" >';
+	envs.forEach(e => {
+		select+='<option>'+e+'</option>';
+	});
+	
+	return document.getElementById("env").innerHTML = select;
+	
+	}
+
+function printEnvSelection(){
+	    fetch("/environments", {
+            method: "GET",
+            headers: {
+                "Content-type": "application/json; charset=UTF-8"
+            }
+        })
+        .then(response => response.json())
+        .then(json => printHtmlEnvSelection(json))
+        .catch(err => console.log(err))
 }
 
 
@@ -271,11 +294,12 @@ function selectEndPoint() {
     switch (selectedService.interfaceType) {
 	 case 'HOSTS_TO_FILE':
             selectedService.inputParams.forEach(e => {
-				let select = printAllHostsSelect(e);
+				let select = '<select class="form-select" id="'+e+'"></select>';
 				inputs += '<div class="row m-top"><div class="input-group input-group-lg form-group"><label class="input-group-text">'+ e +'</label>'+select+'</div></div>';   
+				printAllHostsSelect(e);
 	         });
             rendering = '<div class="row m-top"> <div class="col-5">' + inputs + '</div> <div class="col-2"></div> <div class="col-5">  </div> </div>';
-            break;
+			break;
         case 'PARAMS_TO_JSON':
             selectedService.inputParams.forEach(e => {
                 inputs += '<div class="row"> <div class="input-group mb-3"> <div class="input-group-prepend"> <span class="input-group-text" >' + e + '</span> </div> <input id="' + e + '" type="text" class="form-control"> </div> </div>';
@@ -292,7 +316,8 @@ function selectEndPoint() {
             rendering = '<div class="row m-top"> <div class="col-5"> <div class="input-group"> <span class="input-group-text">Parameters</span> <textarea id="inputBox" class="form-control" aria-label="With textarea"></textarea> </div> </div> <div class="col-2"></div> <div class="col-5"> <div class="input-group"> <span class="input-group-text">Result</span> <textarea id="outputBox" class="form-control" aria-label="With textarea"></textarea> </div> </div> </div>';
             break;
 		case 'ENV_REPORT':
-			rendering += printEnvSelection();
+			rendering += '<div class="row"><div class="col-5"><div class="input-group input-group-lg form-group"><label class="input-group-text">Environment</label><select class="form-select" id="env" ></select></div></div></div>';
+			printEnvSelection();
 			rendering += "</div><br><br><br>";
 			rendering += "<div id='envReports'></div>";
 			break;

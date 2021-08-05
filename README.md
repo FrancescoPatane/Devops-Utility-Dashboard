@@ -9,11 +9,9 @@ docker build -t utility-dashboard .
 
 
 
-
 root progetto converter ---> mvn clean compile package
 
 docker build -t utility-converter . 
-
 
 
 
@@ -23,10 +21,17 @@ docker build -t utility-bundlechecktool .
 
 
 
-docker-compose up -d
+root progetto diagnostictool ---> mvn clean compile package
 
+docker build -t utility-diagnostictool . 
+
+
+
+docker-compose up -d
 
 
 docker logs -f utility-converter
 
 docker logs -f utility-dashboard
+
+...

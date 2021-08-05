@@ -17,6 +17,10 @@ services:
     image: utility-converter:latest
     ports:
       - 8081:8080
+    volumes:
+      - type: bind
+        source: C:\projects\utility\devops-utility\config\converter\application.properties
+        target: /config/application.properties
     restart:
       on-failure
   utility-bundlechecktool:
@@ -24,5 +28,20 @@ services:
     image: utility-bundlechecktool:latest
     ports:
       - 8082:8080
+    volumes:
+      - type: bind
+        source: C:\projects\utility\devops-utility\config\bundlechecktool\application.properties
+        target: /config/application.properties
+    restart:
+      on-failure
+  utility-diagnostictool:
+    container_name: utility-diagnostictool
+    image: utility-diagnostictool:latest
+    ports:
+      - 8083:8080
+    volumes:
+      - type: bind
+        source: C:\projects\utility\devops-utility\config\diagnostictool\application.properties
+        target: /config/application.properties
     restart:
       on-failure

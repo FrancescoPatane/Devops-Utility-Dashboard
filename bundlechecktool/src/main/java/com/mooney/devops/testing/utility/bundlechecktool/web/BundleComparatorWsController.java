@@ -14,7 +14,7 @@ import com.mooney.devops.testing.utility.common.web.dto.FileTransferDto;
 import com.mooney.devops.testing.utility.common.web.dto.InputEnvComparisonDto;
 import com.mooney.devops.testing.utility.common.web.dto.ResponseDto;
 
-@RestController()
+@RestController
 public class BundleComparatorWsController extends AbstractRestServiceController{
 
 	private static final Logger logger = LoggerFactory.getLogger(BundleComparatorWsController.class);

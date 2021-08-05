@@ -34,4 +34,6 @@ docker logs -f utility-converter
 
 docker logs -f utility-dashboard
 
+docker logs -f utility-bundlechecktool
+
 ...

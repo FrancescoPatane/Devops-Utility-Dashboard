@@ -177,7 +177,7 @@ function manageEnvReportReponse(jsonResponse) {
 	html += '<div class="accordion m-top" id="accordionReport">';
 	let containersHtml = '<div class="accordion-item"> <h2 class="accordion-header"> <button class="accordion-button collapsed" type="button" data-bs-toggle="collapse" data-bs-target="#collapseOne" > Container Docker </button> </h2> <div id="collapseOne" class="accordion-collapse collapse"  data-bs-parent="#accordionReport"> <div class="accordion-body"> <ol class="list-group">';
 	payload.DOCKER.CONTAINER_ALL.forEach(e => {
-		containersHtml+= '<li class="list-group-item d-flex "><div class="ms-2 me-auto"><div class="fw-bold">' + e.NAME + '-' + e.IMAGES  + '-' +  e.STATUS + '</div>' + e.PORTS + ' </div></li>';
+		containersHtml+= '<li class="list-group-item d-flex "><div class="ms-2 me-auto"><div class="fw-bold">' + e.NAME + '-' + e.IMAGES  + '-' +  e.STATUS + (e["CONTAINER OS NAME"] ? '-' +  e["CONTAINER OS NAME"] : "") + '</div>' + e.PORTS + ' </div></li>';
 
 	});
 	containersHtml+= '</ol></div></div>';

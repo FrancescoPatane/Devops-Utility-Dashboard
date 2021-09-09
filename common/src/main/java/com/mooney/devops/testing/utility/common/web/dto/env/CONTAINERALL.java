@@ -9,6 +9,10 @@ public class CONTAINERALL{
     public String status;
     @JsonProperty("PORTS") 
     public String ports;
+    @JsonProperty("CONTAINER OS NAME") 
+    public String osName;
+    
+    
 	public String getName() {
 		return name;
 	}
@@ -32,6 +36,12 @@ public class CONTAINERALL{
 	}
 	public void setPorts(String ports) {
 		this.ports = ports;
+	}
+	public String getOsName() {
+		return osName;
+	}
+	public void setOsName(String osName) {
+		this.osName = osName;
 	}
     
     

@@ -16,15 +16,20 @@ public class RemoteSshExecutor {
 //    private static final String REMOTE_HOST = "t1npspas01.sisalpay5group.local";
 	private static final String REMOTE_HOST = "s1npspas01.sisalpay5group.local";
     
-    private static final String USERNAME = "patane";
-    private static final String PASSWORD = "Sshfp-92#1";
+//    private static final String USERNAME = "patane";
+//    private static final String PASSWORD = "Sshfp-92#1";
+  private static final String USERNAME = "tramontana";
+  private static final String PASSWORD = "2021Mny_08";
+//  private static final String remoteShellScript = "/home/patane/monitoring/monitoring.sh";
+  private static final String REMOTESHELLSCRIPT = "/home/tramontana/monitoring/monitoring.sh";
+
     private static final int REMOTE_PORT = 22;
     private static final int SESSION_TIMEOUT = 10000;
     private static final int CHANNEL_TIMEOUT = 5000;
 
     public String execRemoteSh () {
 
-        String remoteShellScript = "/home/patane/monitoring/monitoring.sh";
+//        String remoteShellScript = "/home/patane/monitoring/monitoring.sh";
 
         Session jschSession = null;
 
@@ -48,7 +53,7 @@ public class RemoteSshExecutor {
             ChannelExec channelExec = (ChannelExec) jschSession.openChannel("exec");
 
             // run a shell script
-            channelExec.setCommand("sh " + remoteShellScript + " mkyong");
+            channelExec.setCommand("sh " + REMOTESHELLSCRIPT );
 
             // display errors to System.err
             channelExec.setErrStream(System.err);

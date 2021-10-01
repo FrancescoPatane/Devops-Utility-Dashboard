@@ -8,6 +8,7 @@ import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 
+import com.mooney.devops.testing.utility.common.exceptions.RemoteConnectionException;
 import com.mooney.devops.testing.utility.common.web.dto.ResponseDto;
 
 public abstract class AbstractRestServiceController {
@@ -17,6 +18,14 @@ public abstract class AbstractRestServiceController {
 	@ExceptionHandler(Exception.class)
     public ResponseEntity<ResponseDto> handleGenericException(HttpServletRequest request, Exception e) {
 		logger.error("UNMANAGED ERROR");
+		logger.error(e.getMessage(), e);
+		ResponseDto responseData = new ResponseDto(Boolean.FALSE, e.getClass().toString() + " - " + e.getMessage());
+		return new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
+    }
+	
+	@ExceptionHandler(RemoteConnectionException.class)
+    public ResponseEntity<ResponseDto> handleRemoteConnectionException(HttpServletRequest request, Exception e) {
+		logger.error("REMOTE CONNECTION EXCEPTION");
 		logger.error(e.getMessage(), e);
 		ResponseDto responseData = new ResponseDto(Boolean.FALSE, e.getClass().toString() + " - " + e.getMessage());
 		return new ResponseEntity<>(responseData, HttpStatus.INTERNAL_SERVER_ERROR);
